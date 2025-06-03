@@ -1,0 +1,520 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Literary Maze Game - Literary Mysteries</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Crimson+Text:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Crimson Text', serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #1a1a2e 100%);
+            color: #f5f5dc;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-back {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            background: rgba(255, 215, 0, 0.2);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            color: #ffd700;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-back:hover {
+            background: rgba(255, 215, 0, 0.3);
+            transform: translateX(-5px);
+        }
+
+        .game-container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            margin-bottom: 30px;
+        }
+
+        .game-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .score {
+            background: rgba(255, 215, 0, 0.2);
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .maze {
+            display: grid;
+            grid-template-columns: repeat(15, 1fr);
+            gap: 2px;
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .cell {
+            width: 35px;
+            height: 35px;
+            position: relative;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .wall {
+            background: linear-gradient(135deg, #2c2c54, #1a1a2e);
+            border: 1px solid #333;
+        }
+
+        .path {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 215, 0, 0.1);
+        }
+
+        .player {
+            background: radial-gradient(circle, #ffd700, #ffed4e);
+            border: 2px solid #fff;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { box-shadow: 0 0 15px rgba(255, 215, 0, 0.6); }
+            to { box-shadow: 0 0 25px rgba(255, 215, 0, 0.9); }
+        }
+
+        .book {
+            background: linear-gradient(45deg, #8B4513, #A0522D);
+            border: 2px solid #D2691E;
+            position: relative;
+        }
+
+        .book::after {
+            content: '📚';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 18px;
+        }
+
+        .exit {
+            background: radial-gradient(circle, #32CD32, #228B22);
+            border: 2px solid #90EE90;
+            position: relative;
+        }
+
+        .exit::after {
+            content: '🚪';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 18px;
+        }
+
+        .controls {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .control-buttons {
+            display: grid;
+            grid-template-columns: repeat(3, 60px);
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .control-btn {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 215, 0, 0.2);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 8px;
+            color: #ffd700;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .control-btn:hover {
+            background: rgba(255, 215, 0, 0.3);
+            transform: scale(1.05);
+        }
+
+        .control-btn:active {
+            transform: scale(0.95);
+        }
+
+        .instructions {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .game-status {
+            text-align: center;
+            font-size: 1.2rem;
+            margin: 20px 0;
+            min-height: 30px;
+        }
+
+        .win-message {
+            background: linear-gradient(45deg, #32CD32, #228B22);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 20px 0;
+            font-size: 1.3rem;
+            animation: celebration 0.5s ease;
+        }
+
+        @keyframes celebration {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .reset-btn {
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            color: #1a1a2e;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .reset-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .maze {
+                grid-template-columns: repeat(10, 1fr);
+                max-width: 400px;
+            }
+            
+            .cell {
+                width: 30px;
+                height: 30px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .game-info {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="nav-back">← Back to Home</a>
+        
+        <div class="header">
+            <h1>Literary Maze Adventure</h1>
+            <p>Navigate through the maze, collect all 5 books, and reach the exit!</p>
+        </div>
+
+        <div class="game-container">
+            <div class="game-info">
+                <div class="score">
+                    <strong>Books Collected: <span id="books-collected">0</span>/5</strong>
+                </div>
+                <div class="score">
+                    <strong>Status: <span id="game-status">Exploring...</span></strong>
+                </div>
+                <button class="reset-btn" onclick="resetGame()">Reset Game</button>
+            </div>
+
+            <div id="maze" class="maze"></div>
+
+            <div class="controls">
+                <div class="control-buttons">
+                    <div></div>
+                    <button class="control-btn" onclick="movePlayer('up')">↑</button>
+                    <div></div>
+                    <button class="control-btn" onclick="movePlayer('left')">←</button>
+                    <div></div>
+                    <button class="control-btn" onclick="movePlayer('right')">→</button>
+                    <div></div>
+                    <button class="control-btn" onclick="movePlayer('down')">↓</button>
+                    <div></div>
+                </div>
+            </div>
+
+            <div class="instructions">
+                <h3>How to Play:</h3>
+                <ul>
+                    <li>Use arrow keys, WASD, or the on-screen buttons to move</li>
+                    <li>Collect all 5 books scattered throughout the maze</li>
+                    <li>Once you have all books, reach the green exit door</li>
+                    <li>Avoid the dark walls - you cannot pass through them</li>
+                </ul>
+            </div>
+
+            <div id="game-message" class="game-status"></div>
+        </div>
+    </div>
+
+    <script>
+        // Game state
+        let playerPos = { x: 1, y: 1 };
+        let booksCollected = 0;
+        let gameWon = false;
+        
+        // Maze layout (1 = wall, 0 = path, 2 = book, 3 = exit)
+        const mazeLayout = [
+            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+            [1,0,0,0,1,0,0,0,0,0,1,0,2,0,1],
+            [1,0,1,0,1,0,1,1,1,0,1,0,1,0,1],
+            [1,0,1,0,0,0,0,0,1,0,0,0,1,0,1],
+            [1,0,1,1,1,1,1,0,1,1,1,1,1,0,1],
+            [1,0,0,0,0,0,1,0,0,0,0,0,0,0,1],
+            [1,1,1,0,1,0,1,1,1,0,1,0,1,1,1],
+            [1,2,0,0,1,0,0,0,1,0,1,0,0,2,1],
+            [1,0,1,1,1,0,1,0,1,0,1,1,1,0,1],
+            [1,0,0,0,0,0,1,0,0,0,1,0,0,0,1],
+            [1,1,1,1,1,0,1,1,1,0,1,0,1,0,1],
+            [1,0,0,0,0,0,0,0,0,0,1,0,1,0,1],
+            [1,0,1,1,1,1,1,1,1,1,1,0,1,0,1],
+            [1,2,0,0,0,0,0,0,0,0,0,0,2,0,3],
+            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+        ];
+
+        // Initialize game
+        function initGame() {
+            const maze = document.getElementById('maze');
+            maze.innerHTML = '';
+            
+            for (let y = 0; y < mazeLayout.length; y++) {
+                for (let x = 0; x < mazeLayout[y].length; x++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'cell';
+                    cell.id = `cell-${x}-${y}`;
+                    
+                    switch (mazeLayout[y][x]) {
+                        case 1:
+                            cell.classList.add('wall');
+                            break;
+                        case 0:
+                            cell.classList.add('path');
+                            break;
+                        case 2:
+                            cell.classList.add('path', 'book');
+                            break;
+                        case 3:
+                            cell.classList.add('path', 'exit');
+                            break;
+                    }
+                    
+                    maze.appendChild(cell);
+                }
+            }
+            
+            updatePlayerPosition();
+            updateGameInfo();
+        }
+
+        function updatePlayerPosition() {
+            // Remove player class from all cells
+            document.querySelectorAll('.cell').forEach(cell => {
+                cell.classList.remove('player');
+            });
+            
+            // Add player class to current position
+            const currentCell = document.getElementById(`cell-${playerPos.x}-${playerPos.y}`);
+            if (currentCell) {
+                currentCell.classList.add('player');
+            }
+        }
+
+        function movePlayer(direction) {
+            if (gameWon) return;
+            
+            let newX = playerPos.x;
+            let newY = playerPos.y;
+            
+            switch (direction) {
+                case 'up':
+                    newY--;
+                    break;
+                case 'down':
+                    newY++;
+                    break;
+                case 'left':
+                    newX--;
+                    break;
+                case 'right':
+                    newX++;
+                    break;
+            }
+            
+            // Check bounds and walls
+            if (newY >= 0 && newY < mazeLayout.length && 
+                newX >= 0 && newX < mazeLayout[0].length && 
+                mazeLayout[newY][newX] !== 1) {
+                
+                playerPos.x = newX;
+                playerPos.y = newY;
+                
+                // Check for book collection
+                if (mazeLayout[newY][newX] === 2) {
+                    booksCollected++;
+                    mazeLayout[newY][newX] = 0; // Remove book
+                    const cell = document.getElementById(`cell-${newX}-${newY}`);
+                    cell.classList.remove('book');
+                    
+                    showMessage(`Book collected! (${booksCollected}/5)`, 'success');
+                }
+                
+                // Check for exit (only if all books collected)
+                if (mazeLayout[newY][newX] === 3 && booksCollected === 5) {
+                    gameWon = true;
+                    showWinMessage();
+                } else if (mazeLayout[newY][newX] === 3 && booksCollected < 5) {
+                    showMessage(`Collect all ${5 - booksCollected} remaining books first!`, 'warning');
+                }
+                
+                updatePlayerPosition();
+                updateGameInfo();
+            }
+        }
+
+        function updateGameInfo() {
+            document.getElementById('books-collected').textContent = booksCollected;
+            document.getElementById('game-status').textContent = 
+                gameWon ? 'Victory!' : 
+                booksCollected === 5 ? 'Find the exit!' : 'Collecting books...';
+        }
+
+        function showMessage(message, type) {
+            const messageDiv = document.getElementById('game-message');
+            messageDiv.textContent = message;
+            messageDiv.style.color = type === 'success' ? '#32CD32' : 
+                                   type === 'warning' ? '#FFD700' : '#f5f5dc';
+            
+            setTimeout(() => {
+                messageDiv.textContent = '';
+            }, 3000);
+        }
+
+        function showWinMessage() {
+            const messageDiv = document.getElementById('game-message');
+            messageDiv.innerHTML = '<div class="win-message">🎉 Congratulations! You collected all books and escaped the literary maze! 🎉</div>';
+        }
+
+        function resetGame() {
+            playerPos = { x: 1, y: 1 };
+            booksCollected = 0;
+            gameWon = false;
+            
+            // Reset maze layout
+            for (let y = 0; y < mazeLayout.length; y++) {
+                for (let x = 0; x < mazeLayout[y].length; x++) {
+                    if (mazeLayout[y][x] === 0 && 
+                        ((x === 1 && y === 7) || (x === 13 && y === 7) || 
+                         (x === 1 && y === 13) || (x === 12 && y === 13) || 
+                         (x === 12 && y === 1))) {
+                        mazeLayout[y][x] = 2; // Restore books
+                    }
+                }
+            }
+            
+            document.getElementById('game-message').innerHTML = '';
+            initGame();
+        }
+
+        // Keyboard controls
+        document.addEventListener('keydown', (e) => {
+            switch (e.key) {
+                case 'ArrowUp':
+                case 'w':
+                case 'W':
+                    e.preventDefault();
+                    movePlayer('up');
+                    break;
+                case 'ArrowDown':
+                case 's':
+                case 'S':
+                    e.preventDefault();
+                    movePlayer('down');
+                    break;
+                case 'ArrowLeft':
+                case 'a':
+                case 'A':
+                    e.preventDefault();
+                    movePlayer('left');
+                    break;
+                case 'ArrowRight':
+                case 'd':
+                case 'D':
+                    e.preventDefault();
+                    movePlayer('right');
+                    break;
+            }
+        });
+
+        // Initialize the game when page loads
+        initGame();
+    </script>
+</body>
+</html>
