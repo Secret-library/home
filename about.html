@@ -1,0 +1,218 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Literary Mysteries</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Crimson+Text:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Crimson Text', serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #1a1a2e 100%);
+            color: #f5f5dc;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-back {
+            display: inline-block;
+            margin-bottom: 30px;
+            padding: 10px 20px;
+            background: rgba(255, 215, 0, 0.2);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            color: #ffd700;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-back:hover {
+            background: rgba(255, 215, 0, 0.3);
+            transform: translateX(-5px);
+        }
+
+        .content-section {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 40px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .content-section h2 {
+            color: #ffd700;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        .content-section p {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+
+        .mission-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .mission-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            border: 1px solid rgba(255, 215, 0, 0.1);
+        }
+
+        .mission-card h3 {
+            color: #ffd700;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .team-section {
+            text-align: center;
+        }
+
+        .team-member {
+            display: inline-block;
+            margin: 20px;
+            text-align: center;
+        }
+
+        .team-photo {
+            width: 150px;
+            height: 200px;
+            border-radius: 8px;
+            object-fit: cover;
+            margin-bottom: 15px;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .content-section {
+                padding: 25px;
+            }
+            
+            .mission-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="nav-back">← Back to Home</a>
+        
+        <div class="header">
+            <h1>About Literary Mysteries</h1>
+            <p>Unveiling the hidden depths of classical literature</p>
+        </div>
+
+        <div class="content-section">
+            <h2>Our Story</h2>
+            <p>
+                Literary Mysteries was born from a passion for uncovering the hidden layers of meaning within 
+                classical literature. We believe that every great work of literature contains secrets waiting 
+                to be discovered, themes that resonate across centuries, and mysteries that continue to 
+                intrigue readers today.
+            </p>
+            <p>
+                Our journey began with a simple question: What if we could explore literature not just as 
+                passive readers, but as active detectives, uncovering clues and solving puzzles embedded 
+                within the text itself?
+            </p>
+        </div>
+
+        <div class="content-section">
+            <h2>Our Mission</h2>
+            <div class="mission-grid">
+                <div class="mission-card">
+                    <h3>🔍 Discover</h3>
+                    <p>Uncover hidden meanings and secret messages in classical texts</p>
+                </div>
+                <div class="mission-card">
+                    <h3>📚 Educate</h3>
+                    <p>Share knowledge about literary themes and historical contexts</p>
+                </div>
+                <div class="mission-card">
+                    <h3>🎮 Engage</h3>
+                    <p>Create interactive experiences that bring literature to life</p>
+                </div>
+                <div class="mission-card">
+                    <h3>🌟 Inspire</h3>
+                    <p>Encourage a new generation to fall in love with classic literature</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section team-section">
+            <h2>Meet Our Scholar</h2>
+            <div class="team-member">
+                <img src="public/lovable-uploads/0fb3195c-bb35-4afb-8dc2-3db329261f4d.png" alt="Dr. Oliver Tearle" class="team-photo">
+                <h3>Dr. Oliver Tearle</h3>
+                <p>Literary Scholar & Author</p>
+                <p>
+                    Dr. Tearle brings decades of experience in literary analysis and a passion for 
+                    making classical literature accessible to modern audiences. His expertise spans 
+                    multiple centuries of English literature, with a particular focus on hidden 
+                    symbolism and thematic analysis.
+                </p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>What We Offer</h2>
+            <p>
+                Through our platform, you can explore hidden manuscripts, dive deep into literary themes, 
+                and even participate in interactive games that challenge your understanding of classic texts. 
+                Whether you're a student, educator, or simply a lover of literature, we have something to 
+                offer you.
+            </p>
+            <p>
+                Join us on this literary adventure as we unlock the mysteries that have captivated readers 
+                for generations. Every page turn reveals new secrets, every analysis uncovers deeper meaning, 
+                and every discovery brings us closer to understanding the true power of literature.
+            </p>
+        </div>
+    </div>
+</body>
+</html>
